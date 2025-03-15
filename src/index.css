@@ -1,1 +1,7 @@
+@import url('https://free.bboxtype.com/embedfonts/?family=FiraGO:400,500,600');
 @import "tailwindcss";
+
+
+body {
+    font-family: 'FiraGO', sans-serif;
+}
