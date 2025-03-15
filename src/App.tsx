@@ -1,5 +1,21 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+import Header from "./pages/Header.tsx";
+import Dashboard from "./pages/Dashboard.tsx";
+
 const App = () => {
-  return <div className="text-red-300">Hello World</div>;
+  return (
+    <Router>
+      <div className="flex flex-col justify-center px-[120px]">
+        <Header />
+        <div>
+          <Routes>
+            <Route path="/" element={<Dashboard />}></Route>
+          </Routes>
+        </div>
+      </div>
+    </Router>
+  );
 };
 
 export default App;
