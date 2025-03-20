@@ -34,6 +34,22 @@ const FilterLists: FC<FilterListProps> = ({
   const [tempEmployees, setTempEmployees] = useState<EmployeeType[]>([]);
 
   useEffect(() => {
+    const savedDepartments = localStorage.getItem("selectedDepartments");
+    const savedPriorities = localStorage.getItem("selectedPriorities");
+    const savedEmployees = localStorage.getItem("selectedEmployees");
+
+    if (savedDepartments) setTempDepartments(JSON.parse(savedDepartments));
+    if (savedPriorities) setTempPriorities(JSON.parse(savedPriorities));
+    if (savedEmployees) setTempEmployees(JSON.parse(savedEmployees));
+  }, []);
+
+  useEffect(() => {
+    setTempDepartments(selectedDepartments);
+    setTempPriorities(selectedPriorities);
+    setTempEmployees(selectedEmployees);
+  }, [selectedDepartments, selectedPriorities, selectedEmployees]);
+
+  useEffect(() => {
     setTempDepartments(selectedDepartments);
     setTempPriorities(selectedPriorities);
     setTempEmployees(selectedEmployees);
@@ -56,15 +72,18 @@ const FilterLists: FC<FilterListProps> = ({
   };
 
   const toggleTempEmployee = (employee: EmployeeType) => {
-    setTempEmployees((prev) =>
-      prev.includes(employee)
-        ? prev.filter((emp) => emp !== employee)
-        : [...prev, employee],
-    );
+    setTempEmployees((prev) => (prev.includes(employee) ? [] : [employee]));
   };
 
   const onSaveClick = () => {
     onSelectionChange(tempDepartments, tempPriorities, tempEmployees);
+
+    localStorage.setItem(
+      "selectedDepartments",
+      JSON.stringify(tempDepartments),
+    );
+    localStorage.setItem("selectedPriorities", JSON.stringify(tempPriorities));
+    localStorage.setItem("selectedEmployees", JSON.stringify(tempEmployees));
 
     toggleDropdown(null);
   };
