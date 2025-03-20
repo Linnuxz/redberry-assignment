@@ -8,7 +8,7 @@ const App = () => {
     <Router>
       <div className="flex flex-col justify-center px-[120px]">
         <Header />
-        <div>
+        <div className="pt-[120px]">
           <Routes>
             <Route path="/" element={<Dashboard />}></Route>
           </Routes>
