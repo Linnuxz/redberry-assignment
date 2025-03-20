@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import FilterLists from "../components/FilterLists.tsx";
 
 import Board from "../components/Board.tsx";
@@ -9,7 +9,7 @@ import X from "../assets/x.png";
 
 const Dashboard = () => {
   const [openDropdown, setOpenDropdown] = useState<number | null>(null);
-  const { departments, priorities, employees } = useApi();
+  const { departments, priorities, employees, statuses, tasks } = useApi();
 
   const [selectedDepartments, setSelectedDepartments] = useState<
     DepartmentType[]
@@ -21,6 +21,16 @@ const Dashboard = () => {
     [],
   );
 
+  useEffect(() => {
+    const savedDepartments = localStorage.getItem("selectedDepartments");
+    const savedPriorities = localStorage.getItem("selectedPriorities");
+    const savedEmployees = localStorage.getItem("selectedEmployees");
+
+    if (savedDepartments) setSelectedDepartments(JSON.parse(savedDepartments));
+    if (savedPriorities) setSelectedPriorities(JSON.parse(savedPriorities));
+    if (savedEmployees) setSelectedEmployees(JSON.parse(savedEmployees));
+  }, []);
+
   const handleSelectionChange = (
     departments: DepartmentType[],
     priorities: PriorityType[],
@@ -29,6 +39,10 @@ const Dashboard = () => {
     setSelectedDepartments(departments);
     setSelectedPriorities(priorities);
     setSelectedEmployees(employees);
+
+    localStorage.setItem("selectedDepartments", JSON.stringify(departments));
+    localStorage.setItem("selectedPriorities", JSON.stringify(priorities));
+    localStorage.setItem("selectedEmployees", JSON.stringify(employees));
   };
 
   const toggleDropdown = (index: number | null) => {
@@ -47,6 +61,20 @@ const Dashboard = () => {
       setSelectedEmployees((prev) => prev.filter((emp) => emp.id !== id));
     }
   };
+
+  const filteredTasks = tasks?.filter((task) => {
+    const matchesDepartment =
+      selectedDepartments.length === 0 ||
+      selectedDepartments.some((dep) => dep.id === task.department.id);
+    const matchesPriority =
+      selectedPriorities.length === 0 ||
+      selectedPriorities.some((p) => p.id === task.priority.id);
+    const matchesEmployee =
+      selectedEmployees.length === 0 ||
+      selectedEmployees.some((emp) => emp.id === task.employee.id);
+
+    return matchesDepartment && matchesPriority && matchesEmployee;
+  });
 
   return (
     <div className="mt-[40px]">
@@ -104,7 +132,7 @@ const Dashboard = () => {
         ))}
       </div>
       <div className="mt-[79px]">
-        <Board />
+        <Board statuses={statuses || []} tasks={filteredTasks} />
       </div>
     </div>
   );
