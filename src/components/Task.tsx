@@ -55,6 +55,23 @@ const Task = ({ task, primaryColor }: TaskProps) => {
   const departmentIndex = (task.department.id - 1) % departmentColors.length;
   const departmentColor = departmentColors[departmentIndex];
 
+  useEffect(() => {
+    const fetchTaskComments = async () => {
+      try {
+        const commentsData = await fetchCommentsByTaskId(task.id);
+        setComments(commentsData);
+      } catch (error) {
+        console.error(`Error fetching comments for task ${task.id}:`, error);
+      }
+    };
+
+    fetchTaskComments();
+
+    const interval = setInterval(fetchTaskComments, 2000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div
       key={task.id}
