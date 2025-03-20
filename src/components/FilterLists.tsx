@@ -49,12 +49,6 @@ const FilterLists: FC<FilterListProps> = ({
     setTempEmployees(selectedEmployees);
   }, [selectedDepartments, selectedPriorities, selectedEmployees]);
 
-  useEffect(() => {
-    setTempDepartments(selectedDepartments);
-    setTempPriorities(selectedPriorities);
-    setTempEmployees(selectedEmployees);
-  }, [selectedDepartments, selectedPriorities, selectedEmployees]);
-
   const toggleTempDepartment = (department: DepartmentType) => {
     setTempDepartments((prev) =>
       prev.includes(department)
