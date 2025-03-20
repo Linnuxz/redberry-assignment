@@ -1,7 +1,10 @@
-import { TaskType } from "../types";
+import { CommentType, TaskType } from "../types";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import { ka } from "date-fns/locale/ka";
+
+import Comments from "../assets/Comments.svg";
+import { fetchCommentsByTaskId } from "../api/api.ts";
 
 interface TaskProps {
   task: TaskType;
@@ -12,6 +15,9 @@ const Task = ({ task, primaryColor }: TaskProps) => {
   const [shortenedDepartment, setShortenedDepartment] = useState<string | null>(
     null,
   );
+
+  const [comments, setComments] = useState<CommentType[]>([]);
+
   const formattedDate = format(task.due_date, "dd MMM, yyyy", { locale: ka });
 
   const priorityColor =
@@ -96,14 +102,27 @@ const Task = ({ task, primaryColor }: TaskProps) => {
         </div>
         <div className="text-xs text-nowrap">{formattedDate}</div>
       </div>
-      <div className="flex flex-col">
-        <p className="text-[15px] font-medium">{task.name}</p>
-        <br />
-        <p className="text-[14px] font-normal">{task.description}</p>
+      <div className="flex flex-col gap-3">
+        <p className="text-[15px] font-medium">
+          {task.name}
+          <br />
+        </p>
+        <p className="text-[14px] font-normal">
+          {task.description}
+          <br />
+        </p>
       </div>
 
-      <div>
-        <img src={task.employee.avatar} alt="employee_avatar" />
+      <div className="flex items-center justify-between">
+        <img
+          className="h-[31px] w-[31px] rounded-full"
+          src={task.employee.avatar}
+          alt="employee_avatar"
+        />
+        <button className="flex items-center justify-center gap-1">
+          <img src={Comments} alt="comment-icon" />
+          <p className="text-[14px]">{comments.length}</p>
+        </button>
       </div>
     </div>
   );
