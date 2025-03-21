@@ -28,6 +28,20 @@ export const fetchTasks = async () => {
   }
 };
 
+export const fetchTaskById = async (id: number) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/tasks/${id}`, {
+      headers: {
+        Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching task:", error);
+    throw error;
+  }
+};
+
 export const fetchDepartments = async () => {
   try {
     const response = await axios.get(`${BASE_URL}/departments`);

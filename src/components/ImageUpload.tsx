@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import TrashIcon from "../assets/trash-2.svg";
+import GalleryExports from "../assets/gallery-export.svg";
 
 interface FileUploadProps {
   label: string;
@@ -56,7 +57,7 @@ const ImageUpload = ({ label, onChange }: FileUploadProps) => {
 
         <label
           htmlFor="file-upload"
-          className="relative flex h-20 w-20 cursor-pointer items-center justify-center rounded-full bg-gray-200 hover:bg-gray-300 hover:duration-500"
+          className={`relative flex h-20 w-20 cursor-pointer items-center justify-center ${preview ? "rounded-full bg-gray-200 hover:bg-gray-300 hover:duration-500" : ""} `}
         >
           {preview ? (
             <img
@@ -65,7 +66,10 @@ const ImageUpload = ({ label, onChange }: FileUploadProps) => {
               className="z-4 h-full w-full rounded-full object-cover"
             />
           ) : (
-            <span className="text-2xl text-gray-500">+</span>
+            <span className="flex flex-col items-center text-gray-500">
+              <img src={GalleryExports} alt="upload" className="h-6 w-6" />
+              <span className="text-[14px] text-nowrap">ატვირთე ფოტო</span>
+            </span>
           )}
 
           {preview && (

@@ -3,6 +3,7 @@ import Hourglass from "../assets/Hourglass.png";
 import Add from "../assets/Add.svg";
 import { useState } from "react";
 import Modal from "../components/Modal.tsx";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -27,10 +28,13 @@ const Header = () => {
             >
               თანამშრომლის შექმნა
             </button>
-            <button className="flex cursor-pointer items-center justify-center gap-0.5 rounded-[5px] border bg-[#8338EC] px-[20px] py-2.5 text-nowrap text-white hover:bg-[#B588F4] hover:duration-500">
+            <Link
+              to="/new-task"
+              className="flex cursor-pointer items-center justify-center gap-0.5 rounded-[5px] border bg-[#8338EC] px-[20px] py-2.5 text-nowrap text-white hover:bg-[#B588F4] hover:duration-500"
+            >
               <img src={Add} alt="add-button" className="h-5 w-5" />
               <p>შექმენი ახალი დავალება</p>
-            </button>
+            </Link>
           </div>
         </div>
       </div>

@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react";
 import FilterLists from "../components/FilterLists.tsx";
-
 import Board from "../components/Board.tsx";
 import { DepartmentType, EmployeeType, PriorityType } from "../types";
 import { useApi } from "../hooks/useApi.ts";
-
 import X from "../assets/x.png";
 
 const Dashboard = () => {
@@ -54,12 +52,40 @@ const Dashboard = () => {
     id: number,
   ) => {
     if (type === "department") {
-      setSelectedDepartments((prev) => prev.filter((dep) => dep.id !== id));
+      const updatedDepartments = selectedDepartments.filter(
+        (dep) => dep.id !== id,
+      );
+      setSelectedDepartments(updatedDepartments);
+      localStorage.setItem(
+        "selectedDepartments",
+        JSON.stringify(updatedDepartments),
+      );
     } else if (type === "priority") {
-      setSelectedPriorities((prev) => prev.filter((p) => p.id !== id));
+      const updatedPriorities = selectedPriorities.filter((p) => p.id !== id);
+      setSelectedPriorities(updatedPriorities);
+      localStorage.setItem(
+        "selectedPriorities",
+        JSON.stringify(updatedPriorities),
+      );
     } else if (type === "employee") {
-      setSelectedEmployees((prev) => prev.filter((emp) => emp.id !== id));
+      const updatedEmployees = selectedEmployees.filter((emp) => emp.id !== id);
+      setSelectedEmployees(updatedEmployees);
+      localStorage.setItem(
+        "selectedEmployees",
+        JSON.stringify(updatedEmployees),
+      );
     }
+  };
+
+  const clearAllFilters = () => {
+    setSelectedDepartments([]);
+    setSelectedPriorities([]);
+    setSelectedEmployees([]);
+
+    // Clear the localStorage
+    localStorage.removeItem("selectedDepartments");
+    localStorage.removeItem("selectedPriorities");
+    localStorage.removeItem("selectedEmployees");
   };
 
   const filteredTasks = tasks?.filter((task) => {
@@ -75,6 +101,12 @@ const Dashboard = () => {
 
     return matchesDepartment && matchesPriority && matchesEmployee;
   });
+
+  // Check if any filters are active
+  const hasActiveFilters =
+    selectedDepartments.length > 0 ||
+    selectedPriorities.length > 0 ||
+    selectedEmployees.length > 0;
 
   return (
     <div className="mt-[40px]">
@@ -96,6 +128,7 @@ const Dashboard = () => {
           />
         </div>
       </div>
+
       <div className="absolute z-3 mt-[10px] flex gap-2">
         {selectedDepartments.map((dep) => (
           <div
@@ -130,7 +163,16 @@ const Dashboard = () => {
             </button>
           </div>
         ))}
+        {hasActiveFilters && (
+          <button
+            onClick={clearAllFilters}
+            className="ml-4 cursor-pointer rounded-[20px] px-[20px] py-[5px] text-[14px] text-[#343A40] outline-none"
+          >
+            გასუფთავება
+          </button>
+        )}
       </div>
+
       <div className="mt-[79px]">
         <Board statuses={statuses || []} tasks={filteredTasks} />
       </div>

@@ -5,6 +5,7 @@ import { ka } from "date-fns/locale/ka";
 
 import Comments from "../assets/Comments.svg";
 import { fetchCommentsByTaskId } from "../api/api.ts";
+import { Link } from "react-router-dom";
 
 interface TaskProps {
   task: TaskType;
@@ -79,7 +80,8 @@ const Task = ({ task, primaryColor }: TaskProps) => {
   }, []);
 
   return (
-    <div
+    <Link
+      to={`/task/${task.id}`}
       key={task.id}
       className="flex flex-col gap-7 rounded-[15px] border px-5 py-5"
       style={{ borderColor: primaryColor }}
@@ -128,7 +130,7 @@ const Task = ({ task, primaryColor }: TaskProps) => {
           <p className="text-[14px]">{comments.length}</p>
         </button>
       </div>
-    </div>
+    </Link>
   );
 };
 
