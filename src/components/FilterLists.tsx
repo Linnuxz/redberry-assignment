@@ -128,7 +128,7 @@ const FilterLists: FC<FilterListProps> = ({
               <button
                 key={department.id}
                 onClick={() => toggleTempDepartment(department)}
-                className="flex items-center gap-[15px] p-2 text-left"
+                className="flex cursor-pointer items-center gap-[15px] p-2 text-left"
               >
                 <label className="flex flex-col space-y-4">
                   <input
@@ -151,7 +151,7 @@ const FilterLists: FC<FilterListProps> = ({
               <button
                 key={priority.id}
                 onClick={() => toggleTempPriority(priority)}
-                className="flex items-center gap-[15px] p-2 text-left"
+                className="flex cursor-pointer items-center gap-[15px] p-2 text-left"
               >
                 <label className="flex flex-col space-y-4">
                   <input
@@ -174,7 +174,7 @@ const FilterLists: FC<FilterListProps> = ({
               <button
                 key={employee.id}
                 onClick={() => toggleTempEmployee(employee)}
-                className="flex items-center gap-[15px] p-2 text-left"
+                className="flex cursor-pointer items-center gap-[15px] p-2 text-left"
               >
                 <label className="flex flex-col space-y-4">
                   <input
