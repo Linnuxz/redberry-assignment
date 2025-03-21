@@ -191,7 +191,11 @@ const FilterLists: FC<FilterListProps> = ({
                 </label>
                 <img
                   className="h-[28px] w-[28px] rounded-full"
-                  src={employee.avatar}
+                  src={
+                    employee.avatar && employee.avatar instanceof File
+                      ? URL.createObjectURL(employee.avatar)
+                      : employee.avatar || "../assets/spn-logo.jpg"
+                  }
                   alt="avatar"
                 />
                 <p className="text-[16px] text-[#212529]">{employee.name}</p>

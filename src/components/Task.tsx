@@ -116,7 +116,11 @@ const Task = ({ task, primaryColor }: TaskProps) => {
       <div className="flex items-center justify-between">
         <img
           className="h-[31px] w-[31px] rounded-full"
-          src={task.employee.avatar}
+          src={
+            task.employee.avatar && task.employee.avatar instanceof File
+              ? URL.createObjectURL(task.employee.avatar)
+              : task.employee.avatar || "../assets/spn-logo.jpg"
+          }
           alt="employee_avatar"
         />
         <button className="flex items-center justify-center gap-1">
