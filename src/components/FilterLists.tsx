@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { DepartmentType, EmployeeType, PriorityType } from "../types";
 import CheckVector from "../assets/Vector.svg";
 
@@ -32,6 +32,11 @@ const FilterLists: FC<FilterListProps> = ({
   const [tempDepartments, setTempDepartments] = useState<DepartmentType[]>([]);
   const [tempPriorities, setTempPriorities] = useState<PriorityType[]>([]);
   const [tempEmployees, setTempEmployees] = useState<EmployeeType[]>([]);
+
+  const dropDownRef = useRef<HTMLDivElement>(null);
+  const buttonRefs = useRef<(HTMLButtonElement | null)[]>(
+    new Array(3).fill(null),
+  );
 
   useEffect(() => {
     const savedDepartments = localStorage.getItem("selectedDepartments");
@@ -82,6 +87,27 @@ const FilterLists: FC<FilterListProps> = ({
     toggleDropdown(null);
   };
 
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      const isButtonClicked = buttonRefs.current.some(
+        (button) => button && button.contains(e.target as Node),
+      );
+      if (
+        dropDownRef.current &&
+        !dropDownRef.current.contains(e.target as Node) &&
+        !isButtonClicked
+      ) {
+        toggleDropdown(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [toggleDropdown]);
+
   return (
     <div className="relative flex w-full flex-col gap-4">
       <div className="flex w-full gap-[45px]">
@@ -89,9 +115,12 @@ const FilterLists: FC<FilterListProps> = ({
           { id: 1, label: "დეპარტამენტი" },
           { id: 2, label: "პრიორიტეტი" },
           { id: 3, label: "თანამშრომელი" },
-        ].map(({ id, label }) => (
+        ].map(({ id, label }, index) => (
           <div key={id} className="relative w-full">
             <button
+              ref={(el: HTMLButtonElement | null) => {
+                buttonRefs.current[index] = el;
+              }}
               onClick={() => toggleDropdown(id)}
               className={`flex w-full items-center justify-between gap-2 rounded-md p-2 ${
                 openDropdown === id ? "text-[#8338EC]" : ""
@@ -122,7 +151,10 @@ const FilterLists: FC<FilterListProps> = ({
       </div>
 
       {openDropdown !== null && (
-        <div className="absolute top-full left-0 z-10 mt-2 flex w-full flex-col rounded-[10px] border border-[#8338EC] bg-white p-2 px-[20px] py-[40px] shadow-md">
+        <div
+          ref={dropDownRef}
+          className="absolute top-full left-0 z-10 mt-2 flex w-full flex-col rounded-[10px] border border-[#8338EC] bg-white p-2 px-[20px] py-[40px] shadow-md"
+        >
           {openDropdown === 1 &&
             departments.map((department) => (
               <button
