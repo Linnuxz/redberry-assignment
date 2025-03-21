@@ -2,6 +2,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Header from "./pages/Header.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
+import NewTask from "./pages/NewTask.tsx";
+import OpenTask from "./components/OpenTask.tsx";
 
 const App = () => {
   return (
@@ -11,6 +13,9 @@ const App = () => {
         <div className="pt-[120px]">
           <Routes>
             <Route path="/" element={<Dashboard />}></Route>
+            <Route path="/new-task" element={<NewTask />} />
+            <Route path="/task/:id" element={<OpenTask />} />
+            <Route />
           </Routes>
         </div>
       </div>
