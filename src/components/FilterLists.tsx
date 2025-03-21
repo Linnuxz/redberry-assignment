@@ -122,7 +122,7 @@ const FilterLists: FC<FilterListProps> = ({
       </div>
 
       {openDropdown !== null && (
-        <div className="absolute top-full left-0 z-10 mt-2 flex w-full flex-col rounded-[10px] border border-[#8338EC] bg-white p-2 shadow-md">
+        <div className="absolute top-full left-0 z-10 mt-2 flex w-full flex-col rounded-[10px] border border-[#8338EC] bg-white p-2 px-[20px] py-[40px] shadow-md">
           {openDropdown === 1 &&
             departments.map((department) => (
               <button
@@ -143,7 +143,7 @@ const FilterLists: FC<FilterListProps> = ({
                     )}
                   </div>
                 </label>
-                {department.name}
+                <p className="text-[16px] text-[#212529]">{department.name}</p>
               </button>
             ))}
           {openDropdown === 2 &&
@@ -166,7 +166,7 @@ const FilterLists: FC<FilterListProps> = ({
                     )}
                   </div>
                 </label>
-                {priority.name}
+                <p className="text-[16px] text-[#212529]">{priority.name}</p>
               </button>
             ))}
           {openDropdown === 3 &&
@@ -189,7 +189,12 @@ const FilterLists: FC<FilterListProps> = ({
                     )}
                   </div>
                 </label>
-                {employee.name}
+                <img
+                  className="h-[28px] w-[28px] rounded-full"
+                  src={employee.avatar}
+                  alt="avatar"
+                />
+                <p className="text-[16px] text-[#212529]">{employee.name}</p>
               </button>
             ))}
           <div className="flex justify-end">
