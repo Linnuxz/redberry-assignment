@@ -13,7 +13,7 @@ export interface EmployeeType {
   id: number;
   name: string;
   surname: string;
-  avatar: string;
+  avatar: File | null;
   department: DepartmentType;
 }
 
@@ -31,4 +31,14 @@ export interface TaskType {
   priority: PriorityType;
   department: DepartmentType;
   employee: EmployeeType;
+}
+
+export interface CommentType {
+  id: number;
+  text: string;
+  task_id: number;
+  parent_id: number | null;
+  author_avatar: string;
+  author_nickname: string;
+  sub_comments: CommentType[];
 }
